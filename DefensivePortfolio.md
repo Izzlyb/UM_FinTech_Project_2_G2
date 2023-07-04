@@ -43,6 +43,14 @@ have the following characteristics:
     cash per share and positive earnings per share. Often, they may pay a dividend as well, 
     although this is not guaranteed. 
 
+## Income, Balanced and Growth Asset Allocation Models
+We can divide asset allocation models into three broad groups:
+
+    + Income Portfolio: 70% to 100% in bonds.
+    + Balanced Portfolio: 40% to 60% in stocks.
+    + Growth Portfolio: 70% to 100% in stocks.
+
+
 ## SECTOR TRACKER
 
 S&P 500 INDEX +1.23%
@@ -206,9 +214,37 @@ Numbers may not total 100 due to rounding.
 Information technology, health care, and financials have the highest share 
 in the S&P 500. Together, they cover over half the index.
 
+growth_stock = ['PANW', 'LRCW', 'AAPL', 'AMZN', 'MSFT', 'TSLA', 'CAT', 'DE']
+cyclical_stocks = ['DIS', 'EXPE', 'NUE', 'DPZ', 'CMG']
+aggressive_stocks = ['TSLA', 'MSTR', 'FANG', 'CROX', 'AMD', 'NVDA', 'ALGN']
+conservative_stocks = ['KO', 'CI', 'PG', 'UNH', 'HD', 'CAT', 'LMT', 'XOM', 'CAH' ]
+
+stock_portfolio = ['Aggressive', 'Conservative', 'Growth', 'Dividend', 'Balanced']
+
+bonds = {['TLT':'20-YR', 
+          'TNX' : '10-YR',
+          'FVX' : '5-yr',
+          'HYG' : 'Bonds']}
+
+etfs_growth = ['IWY', 'VONG', 'SPGP', 'MGK', 'SPYG', 'SCHG']
+etf_balance = ['AOA', 'OAK', 'PSMB', 'GAL', 'BND', 'NOBL']
+etf_dividends = ['HDV', 'VYM', 'SPHD','SCHD','SPYD', 'VYMI', 'VIG' ]
+
+commodities = {[
+    'Gold Contrat' : 'GC',
+    'Silver Contract' : 'SI',
+    'High Grade Copper' : 'HG',
+    'Platinum Contrat' : 'PL'
+    ]}
+
+
+
+
 References:
 
 Morning Star: https://www.morningstar.com/content/dam/marketing/apac/au/pdfs/Legal/StockSectorStructure_Factsheet.pdf
 Investopedia: https://www.investopedia.com/terms/d/defensivestock.asp
 VisualCapitalist: https://advisor.visualcapitalist.com/complete-breakdown-of-sp-500-companies/
+Forbes: https://www.forbes.com/advisor/retirement/asset-allocation-models/
+ivolatility: https://www.ivolatility.com/data/futures.html
 
