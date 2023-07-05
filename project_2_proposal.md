@@ -39,6 +39,14 @@ C. We will be work during the implementation phase with stocks from the S&P500 i
     We'll use the ETFs that represent the market sectors in the S&P500 as part of the
     portfolio.
 
+We have definitions of portfolios, stocks and ETFs that have aggressive or defensive behavior.
+meaning, the aggressive stocks have more volatility and can have more dramatic swings.
+The defensive stocks and ETFs have less volatility and would react less dramatic.
+
+These definitions are in the files: 
+        PortfolioAsset.py
+        assets.py
+
 
 ## Work distribution
 
@@ -90,7 +98,12 @@ Also the stocks to be analyzed would be taken from a watchlist provided by the u
 
 4. (Samuel) Create a trading bot to use the selected ML model to do automated trading on 
     a paper account. Setup alarms if selected stocks are moving on either direction.
+    We would use as strategy:
+    1. EMA's : 13 - 30 -100
+    2. Double Bollinger Bands
+    3. MACD + Stochastics Band
 
+    We can take advantage of the backsteting.py
 
 
 For project 3:
