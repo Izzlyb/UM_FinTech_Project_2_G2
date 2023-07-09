@@ -68,6 +68,7 @@ PortfolioETF = [
     PortfolioAsset("IWM", 247.55, 190, "2022-05-15", 0.0)
 ]
 
+
 Portfolio2023 = [
     PortfolioAsset("MSFT", 191.00, 15, "2022-12-15", 0.0),
     PortfolioAsset("ABNG", 132.35, 10, "2022-05-15", 0.0),
@@ -86,6 +87,7 @@ Portfolio2023 = [
     PortfolioAsset("SLV", 51.70, 65, "2022-05-15", 0.0)
 ]
 
+
 HybridPortfolio = [
     PortfolioAsset("NVDA", 424.13, 100, "2022-12-15", 0.0),
     PortfolioAsset("WMT", 310.55, 120, "2022-05-15", 0.0),
@@ -98,6 +100,7 @@ HybridPortfolio = [
     PortfolioAsset("GLD", 178.47, 190, "2022-05-15", 0.0)   
 ]
 
+
 PortfoliosOwned = {}
 
 PortfoliosOwned = dict({
@@ -106,6 +109,7 @@ PortfoliosOwned = dict({
     "ETF Portfolio" : PortfolioETF, 
     "Stocks Portfolio" : PortfolioStocks
 })
+
 
 # etfs_growth = ['IWY', 'VONG', 'SPGP', 'MGK', 'SPYG', 'SCHG']
 # etf_balance = ['AOA', 'OAK', 'PSMB', 'GAL', 'BND', 'NOBL']
