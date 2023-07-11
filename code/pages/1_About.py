@@ -2,7 +2,7 @@ import streamlit as st
 
 def intro():
 
-    st.title("# Welcome to the Portfolio Managment App! 👋")
+    st.title("# Welcome to the Portfolio Managment App! 👋 💰")
 
     st.markdown(
     """

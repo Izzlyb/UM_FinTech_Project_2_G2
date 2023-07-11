@@ -2,16 +2,147 @@ import streamlit as st
 import pandas as pd
 import yfinance as yf
 from pathlib import Path
+import time
+from datetime import date
+from PortfolioAsset import *
+import os
 
+TEST_FLAG = False
 
-DJI_CSV = "DowJones.csv"
-SP500_CSV = "SP500_sub.csv"
-NASDAQ_CSV = "Nasdaq100"
-RUS2000_CSV = "Russell2000.csv"
 list_header = ('Symbol', 'Open', 'High', 'Low', 'Close', '52w-Low', '52w-High', 'Sector', 'Industry', 'Beta')
 
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+def select_file_name(ix_seltd):
+    if ix_seltd == 'DJI':
+        index_csv = DJI_CSV
+    elif ix_seltd == 'SP500':
+        index_csv = SP500_CSV
+    elif ix_seltd == 'NASDAQ':
+        index_csv = NASDAQ_CSV
+    elif ix_seltd == 'RUS2000':
+        index_csv = RUS2000_CSV
+
+    st.write(index_csv)
+    
+    return index_csv
+
+#-----------------------------------------------------------
 
 
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+def get_portfolio_assets(pf_name):
+    
+    pf_df = pd.read_csv(Path(f"data/pf__{pf_name}.csv"))
+
+    return pf_df
+#-----------------------------------------------------------
+
+
+
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+def get_watchlist_df(wl_name):
+    
+    df = pd.read_csv(Path(f"data/wl__{wl_name}.csv"))
+
+    return df
+#-----------------------------------------------------------
+
+
+
+
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+def get_portfolio_names():
+    # folder path
+    dir_path = r'data//'
+    
+    # list to store files
+    fl_lst = []
+    fl_lst.append("Make Selection from List")
+    # Iterate directory
+    for path in os.listdir(dir_path):
+        # check if current path is a file
+        if path.find('wl__') < 0:
+            if os.path.isfile(os.path.join(dir_path, path)):
+                path = path.replace("pf__", "" )
+                path = path.replace(".csv", "" )
+                fl_lst.append(path)
+
+    return fl_lst
+#----------------------------------------------------------------
+
+
+
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+def get_watchlist_names():
+    # folder path
+    dir_path = r'data//'
+    
+    # list to store files
+    fl_lst = []
+    fl_lst.append("Make Selection from List")
+    # Iterate directory
+    for path in os.listdir(dir_path):
+        # check if current path is a file
+        if path.find('pf__') < 0:
+            if os.path.isfile(os.path.join(dir_path, path)):
+                path = path.replace("wl__", "" )
+                path = path.replace(".csv", "" )
+                fl_lst.append(path)
+
+    return fl_lst
+#----------------------------------------------------------------
+
+
+
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+def get_idx_stocks_list(index_csv):
+    ticker_names = pd.read_csv(Path(f"Resources/{index_csv}"))
+    tickers = list(ticker_names.loc[:]['Symbol'])
+
+    return tickers
+#-----------------------------------------------------------
+
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+def save_watchlist():
+    
+    wl_name = st.session_state.stock_list_name
+    csv_file = Path(f"data/wl__{wl_name}.csv")
+    st.session_state.watchlist_df.to_csv(csv_file)
+    st.write(f">{wl_name}< saved successfully.")
+
+    return st.session_state.watchlist_df
+#-----------------------------------------------------------
+
+
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+def add_ticker_to_list(stk, close, qty):
+
+    data = {'Ticker':[stk],
+            'OriginalPrice': [close],
+            'Quantity': [qty],
+            'OriginalDate': [date.today()],
+            'ActualPrice' : [close],
+            'TransType' : ['BTO'] 
+    }
+
+    pf_stk = pd.DataFrame(data)
+    st.write("sell stock and add to portfolio:")
+    st.session_state.watchlist_df = pd.concat([st.session_state.watchlist_df, pf_stk])
+
+
+#-----------------------------------------------------------
+
+
+
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 def load_stock_prices(ticker="", start="", end="", index=""):
     # https://pypi.org/project/yfinance/
     if ticker != "" and index == "": 
@@ -28,9 +159,8 @@ def load_stock_prices(ticker="", start="", end="", index=""):
         else:
             index_csv = "DowJones.csv"
 
-        ticker_names = pd.read_csv(Path(f"Resources/{index_csv}"))
-        tickers = list(ticker_names.loc[:]['Symbol'])
-    
+        tickers = get_idx_stocks_list(index_csv)
+
     if start != "":
         d1 = start
         d2 = end
@@ -121,7 +251,6 @@ def concat_multi_stocks(idx_stk_lst):
     
     for i in range(1, (len(idx_stk_lst)-1)):
         idx = idx_stk_lst[i+1]
-        print(i, idx)
         idx_stk_df = tkrs_df[idx]
         df1 = reshape_sngl_stock_df(idx, idx_stk_df)
         sk_df = pd.concat([sk_df, df1])
@@ -135,5 +264,87 @@ def get_stock_data(ticker, date1="", date2=""):
     df = yf.download(ticker, start=date1, end=date2)
 
     return df
+
+
+################################################################
+def create_portfolio_2(data):
+    # Select some rows using st.multiselect. This will break down when you have >1000 rows.
+    # data is a dataframe.
+    st.write('### Full Dataset', data)
+    selected_indices = st.multiselect('Select rows:', data.index)
+    selected_rows = data.loc[selected_indices]
+    st.write('### Selected Rows for your new portfolio', selected_rows)
+    
+    return selected_rows
+# ---------------------------------------------------------------    
+
+
+#################################################################
+@st.cache_data
+def get_stock_data(ticker, date1="", date2=""):
+    
+    data = yf.download(
+        tickers = ticker,
+        start=date1,
+        end=date2,
+        period = "ytd",
+        interval = "1d",
+        group_by = 'ticker',
+        auto_adjust = True,
+        prepost = True,
+        threads = True,
+        proxy = None
+    )
+
+    stock_df = data
+
+    return data
+#----------------------------------------------------------------
+
+
+#################################################################
+@st.cache_data
+def get_index_stocks_data(index):
+    sec_now = time.time()
+    sec_ytrdy = time.time()-(24*60*60)
+    now = time.localtime(sec_now)
+    yesterday = time.localtime(sec_ytrdy)
+    # print(time.strftime("%y/%m/%d %H:%M", now))
+    # st.write(f">the start time is: {start_date}<, >the end time is: {end_date}<")
+    # dji_tickers = pd.read_csv(Path("Resources/DowJones.csv"))
+
+    if index == 'DJI':
+        index_csv = DJI_CSV
+    elif index == 'SP500':
+        index_csv = SP500_CSV
+    elif index == 'NASDAQ':
+        index_csv = NASDAQ_CSV
+    elif index == 'RUS2000':
+        index_csv = RUS2000_CSV
+
+    dji_tickers = pd.read_csv(Path(f"Resources/{index_csv}"))
+    tickers_lst = list(dji_tickers.loc[:]['Symbol'])
+
+    if TEST_FLAG == True:
+        tkrs_df = pd.read_csv(Path("Resources/sp500_cont_prices.csv"))
+    else:
+        tkrs_df = concat_multi_stocks(tickers_lst)
+
+    # data = { "Ticker" : (dji_tickers['Symbol'].sort_values()).values,
+    #         "Open" : (df_dji['Open'].values)[0],
+    #         "High" : (df_dji['High'].values)[0],
+    #         "Low" : (df_dji['Low'].values)[0],
+    #         "Close" : (df_dji['Close'].values)[0],
+    #         "Adj Close" : (df_dji['Adj Close'].values)[0],
+    #         "Volume" : (df_dji['Volume'].values)[0]
+    #         }
+
+    # # dji = tkrs_df.copy()
+    # data_df = pd.DataFrame(data = {
+    #     }, columns
+
+    return tkrs_df
+#----------------------------------------------------------------
+
 
 

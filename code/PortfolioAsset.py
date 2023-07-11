@@ -2,14 +2,37 @@
 
 import pandas as pd
 
+
+DJI_CSV = "DowJones.csv"
+SP500_CSV = "SP500_sub.csv"
+NASDAQ_CSV = "Nasdaq100.csv"
+RUS2000_CSV = "Russell2000.csv"
+
+
+index_dict = {
+        'Dow Jones Industrial' : 'DJI', 
+        'S&P 500' : 'SP500',
+        'Nasdaq 100' :'NASDAQ',
+        'Russell 2000' :'RUS2000'
+}
+
+
+pf_asset_cols = ('Ticker', 
+                 'OriginalPrice', 
+                 'Quantity', 
+                 'OriginalDate', 
+                 'ActualPrice',
+                 'TransType')
+
+
 class PortfolioAsset():
-    def __init__(self, trk, price, qty=0, date="", act_price=0.0):
+    def __init__(self, trk, price=0.0, qty=0, date="", act_price=0.0, tt='-'):
         self.Ticker = trk,
         self.OriginalPrice = price,
         self.Quantity = qty,
         self.OriginalDate = date,
         self.ActualPrice = act_price,
-        self.TransType = '-'
+        self.TransType = tt
         
     # def __str__(self):
     #     self.Ticker, 
