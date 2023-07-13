@@ -1,27 +1,19 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import time
+import os
 import yfinance as yf
 from pathlib import Path
-from assets import stock_portfolio, portfolios, PortfolioAssets
+from assets import *
+from GetStockData import *
 from PfAnalysisTwPy import *
+from PortfolioDiversificationAnalysis import *
 
 
 import riskfolio as rp
 import matplotlib.pyplot as plt
 import warnings
 warnings.filterwarnings('ignore')
-
-
-st.write("""
-         # You are in the Analyze Portfolio Page 📊
-         
-         From the selection list below, you can select one \n
-         of your portfolios or watchlist to analyze.
-         
-         """)
-
 
 
 ################################################################
@@ -143,39 +135,43 @@ def calculate_weights(data):
 #----------------------------------------------------------------
 
 
-################################################################
-def chart_display():
-    df1 = pd.DataFrame(
-    np.random.randn(50, 20),
-    columns=('col %d' % i for i in range(20)))
-
-    my_table = st.table(df1)
-
-    df2 = pd.DataFrame(
-    np.random.randn(50, 20),
-    columns=('col %d' % i for i in range(20)))
-
-    my_table.add_rows(df2)
-    # Now the table shown in the Streamlit app contains the data for
-    # df1 followed by the data for df2.
-    # Assuming df1 and df2 from the example above still exist...
-    my_chart = st.line_chart(df1)
-    my_chart.add_rows(df2)
-    # Now the chart shown in the Streamlit app contains the data for
-    # df1 followed by the data for df2.
-
-    my_chart = st.vega_lite_chart({
-        'mark': 'line',
-        'encoding': {'x': 'a', 'y': 'b'},
-        'datasets': {
-        'some_fancy_name': df1,  # <-- named dataset
-        },
-        'data': {'name': 'some_fancy_name'},
-    })
-
-    my_chart.add_rows(some_fancy_name=df2)  # <-- name used as keyword
-#---------------------------------------------------------------
 
 
-PfAnalysisTwPy()
-# chart_display()
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+def main():
+    st.write("""
+            ## You are in the Analyze Portfolio Page 📉
+            
+            From the selection list below, you can select one \n
+            of your portfolios or watchlist to analyze.
+            
+            """)
+
+    select_form = st.form(key = "select_form")
+    with select_form:
+        pf_list = get_portfolio_names()
+        pf_name = st.selectbox("Available Portfolios", pf_list)
+
+        pf_name
+        pf_selected = st.form_submit_button("Select Portfolio")
+
+    action_form = st.form(key="action_form")
+    with action_form:
+        if pf_selected == True:
+            mod_portfolio = get_portfolio_assets(pf_name)
+            
+            mod_portfolio
+        
+        st.form_submit_button("Done with Portfolio")
+
+
+    # PfAnalysisTwPy()
+    PortfolioDiversificationAnalysis()
+
+#----------------------------------------------------------------
+
+
+if __name__ == '__main__':
+    
+    main()

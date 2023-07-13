@@ -29,6 +29,26 @@ def select_file_name(ix_seltd):
 #-----------------------------------------------------------
 
 
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# get stock to buy or sell and create a single stock df to add to the portfolio dataframe:
+def mk_stock_tx_item(tkr, prc, qty):
+    pass
+
+    # data = { "Ticker" : (dji_tickers['Symbol'].sort_values()).values,
+    #         "Open" : (df_dji['Open'].values)[0],
+    #         "High" : (df_dji['High'].values)[0],
+    #         "Low" : (df_dji['Low'].values)[0],
+    #         "Close" : (df_dji['Close'].values)[0],
+    #         "Adj Close" : (df_dji['Adj Close'].values)[0],
+    #         "Volume" : (df_dji['Volume'].values)[0]
+    #         }
+
+    # # dji = tkrs_df.copy()
+    # data_df = pd.DataFrame(data = {
+    #     }, columns
+#-----------------------------------------------------------
+
+
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 def get_portfolio_assets(pf_name):
@@ -260,10 +280,13 @@ def concat_multi_stocks(idx_stk_lst):
     return sk_df
 
 
+################################################################
 def get_stock_data(ticker, date1="", date2=""):
     df = yf.download(ticker, start=date1, end=date2)
 
     return df
+# ---------------------------------------------------------------    
+
 
 
 ################################################################
