@@ -2,37 +2,14 @@
 
 import pandas as pd
 
-
-DJI_CSV = "DowJones.csv"
-SP500_CSV = "SP500_sub.csv"
-NASDAQ_CSV = "Nasdaq100.csv"
-RUS2000_CSV = "Russell2000.csv"
-
-
-index_dict = {
-        'Dow Jones Industrial' : 'DJI', 
-        'S&P 500' : 'SP500',
-        'Nasdaq 100' :'NASDAQ',
-        'Russell 2000' :'RUS2000'
-}
-
-
-pf_asset_cols = ('Ticker', 
-                 'OriginalPrice', 
-                 'Quantity', 
-                 'OriginalDate', 
-                 'ActualPrice',
-                 'TransType')
-
-
 class PortfolioAsset():
-    def __init__(self, trk, price=0.0, qty=0, date="", act_price=0.0, tt='-'):
+    def __init__(self, trk, price, qty=0, date="", act_price=0.0):
         self.Ticker = trk,
         self.OriginalPrice = price,
         self.Quantity = qty,
         self.OriginalDate = date,
         self.ActualPrice = act_price,
-        self.TransType = tt
+        self.TransType = '-'
         
     # def __str__(self):
     #     self.Ticker, 
@@ -91,7 +68,6 @@ PortfolioETF = [
     PortfolioAsset("IWM", 247.55, 190, "2022-05-15", 0.0)
 ]
 
-
 Portfolio2023 = [
     PortfolioAsset("MSFT", 191.00, 15, "2022-12-15", 0.0),
     PortfolioAsset("ABNG", 132.35, 10, "2022-05-15", 0.0),
@@ -110,7 +86,6 @@ Portfolio2023 = [
     PortfolioAsset("SLV", 51.70, 65, "2022-05-15", 0.0)
 ]
 
-
 HybridPortfolio = [
     PortfolioAsset("NVDA", 424.13, 100, "2022-12-15", 0.0),
     PortfolioAsset("WMT", 310.55, 120, "2022-05-15", 0.0),
@@ -123,7 +98,6 @@ HybridPortfolio = [
     PortfolioAsset("GLD", 178.47, 190, "2022-05-15", 0.0)   
 ]
 
-
 PortfoliosOwned = {}
 
 PortfoliosOwned = dict({
@@ -132,7 +106,6 @@ PortfoliosOwned = dict({
     "ETF Portfolio" : PortfolioETF, 
     "Stocks Portfolio" : PortfolioStocks
 })
-
 
 # etfs_growth = ['IWY', 'VONG', 'SPGP', 'MGK', 'SPYG', 'SCHG']
 # etf_balance = ['AOA', 'OAK', 'PSMB', 'GAL', 'BND', 'NOBL']
