@@ -33,11 +33,11 @@ if "visibility" not in st.session_state:
     st.session_state.visibility = "visible"
     st.session_state.disabled = False
 if "watchlist_nm" not in st.session_state:
-    st.session_state.watchlist_nm = ""                  # string name of watchlist we are working:
+    st.session_state.work_watchlist_nm = ""                  # string name of watchlist we are working:
 if "new_portfolio_nm" not in st.session_state:
-    st.session_state.new_portfolio_nm = ""              # string name of portfolio we are working:
+    st.session_state.work_portfolio_nm = ""              # string name of portfolio we are working:
 if "watchlist_df" not in st.session_state:
-    st.session_state.watchlist_df = pd.DataFrame()      # list of dataframes with watchlist
+    st.session_state.work_watchlist_df = pd.DataFrame()      # list of dataframes with watchlist
 if "work_portfolio_df" not in st.session_state:
     st.session_state.work_portfolio_df = pd.DataFrame() # list of dataframes with portfolios
 if "stks_to_newpf" not in st.session_state:

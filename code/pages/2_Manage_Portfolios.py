@@ -199,8 +199,13 @@ def main():
             st.write("Portfolio will be saved...")
         else:
             st.write("No save action specified")
+#----------------------------------------------------------------
 
-        
+
+if __name__ == '__main__':
+    main()
+
+
 
 # pf_asset_cols = ('Ticker', 
 #                  'OriginalPrice', 
@@ -223,9 +228,6 @@ def main():
     #         done_submit_btn = st.form_submit_button("Done Working with Portfolio")
     
 
-
-
-        
 #----------------------------------------------------------------
     # if select_btn == True:
     #     name_form = st.form(key='name_form', clear_on_submit=True)
@@ -249,8 +251,3 @@ def main():
     # else:
     #     st.write("** select an action. **")
 #------------------------------------------------------
-
-
-if __name__ == '__main__':
-    main()
-

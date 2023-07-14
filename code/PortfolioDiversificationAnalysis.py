@@ -29,7 +29,7 @@ fiftyTwoWeekHigh = []
 
 run_all_code = True
 
-def PortfolioDiversificationAnalysis():
+def PortfolioDiversificationAnalysis(tickers):
 
     sectors = []
     countries = []
@@ -47,6 +47,14 @@ def PortfolioDiversificationAnalysis():
 
     market_cap_dist = {'small' : 0.0, 'mid' : 0.0, 'large' : 0.0, 'huge' : 0.0}
     
+    if tickers == "":
+        stocks = stocks
+    else:
+        stocks = tickers
+
+    st.write("There seems to be a problem with the yfinance API to get information about a stock.")
+    stocks = ""
+
     if run_all_code:
         for i in range(0, len(stocks)):
             # print(yf.Ticker(stocks[i]).get_info()['marketCap'])
@@ -70,29 +78,37 @@ def PortfolioDiversificationAnalysis():
         etfs = ['SCHX', 'IVV', 'DGRO', 'VIG', 'FTEC', 'NOBL']
         etf_amounts = [ 10, 20, 28, 16, 12, 7 ]
 
+        ### ERROR
+        etfs = ""
         for i in range(0, len(etfs)):
             etf_values.append(yf.Ticker(etfs[i]).get_info()['previousClose'] * etf_amounts[i])
 
         cryptos = ['BTC-USD', 'ADA-USD', 'DOGE-USD']
         crypto_amounts = [.64, 1.33, 200, 500]
 
-
+        ### ERROR 
+        cryptos = ""
         for i in range(0, len(cryptos)):
             crypto_values.append(yf.Ticker(cryptos[i]).get_info()['previousClose'])
 
-
+        ### ERROR
+        sectors = ""
         for i in range(len(sectors)):
             if sectors[i] not in sector_dist.keys():
                 sector_dist[sectors[i]] = 0
                 
             sector_dist[sectors[i]] += values[i]
 
+        #### ERROR
+        countries = ""        
         for i in range(len(countries)):
             if countries[i] not in country_dist.keys():
                 country_dist[countries[i]] = 0
                 
             country_dist[countries[i]] += values[i]
 
+        ### ERROR
+        market_cap = ""
         for i in range(len(market_caps)):
             if market_caps[i] < 2_000_000_000:
                 market_cap_dist['small'] += values[i]
@@ -109,18 +125,21 @@ def PortfolioDiversificationAnalysis():
                 "Crypto" : sum(crypto_values),
                 "Cash" : cash
             }
- 
-        with open('general.pickle', 'wb') as f:
-            pickle.dump(general_dist, f)
-            
-        with open('sector.pickle', 'wb') as f:
-            pickle.dump(sector_dist, f)
-            
-        with open('country.pickle', 'wb') as f:
-            pickle.dump(country_dist, f)
-            
-        with open('market_cap.pickle', 'wb') as f:
-            pickle.dump(market_cap_dist, f)
+
+        if cryptos == "" or etfs == "" or stocks == "":
+            st.write("There is an error with the yfinance Ticker() function.")
+        else:
+            with open('general.pickle', 'wb') as f:
+                pickle.dump(general_dist, f)
+                
+            with open('sector.pickle', 'wb') as f:
+                pickle.dump(sector_dist, f)
+                
+            with open('country.pickle', 'wb') as f:
+                pickle.dump(country_dist, f)
+                
+            with open('market_cap.pickle', 'wb') as f:
+                pickle.dump(market_cap_dist, f)
 
     else:
         # --------------------------------------------
@@ -138,23 +157,25 @@ def PortfolioDiversificationAnalysis():
         with open("market_cap.pickle", 'rb') as f:
             market_cap_dist = pickle.load()
 
+    if cryptos == "" or etfs == "" or stocks == "":
+        st.write("There is an error with the yfinance Ticker() function.")
+    else:
+        fig, axs = plt.subplots(2,2)
+        fig.suptitle("Portfolio Diversification Analysis", fontsize=9)
 
-    fig, axs = plt.subplots(2,2)
-    fig.suptitle("Portfolio Diversification Analysis", fontsize=9)
+        axs[0,0].pie(general_dist.values(), labels=general_dist.keys(), autopct="%1.1f%%", pctdistance=0.8, colors=mcolors.TABLEAU_COLORS)
+        axs[0,0].set_title("General Distribution")
 
-    axs[0,0].pie(general_dist.values(), labels=general_dist.keys(), autopct="%1.1f%%", pctdistance=0.8, colors=mcolors.TABLEAU_COLORS)
-    axs[0,0].set_title("General Distribution")
+        axs[0,1].pie(sector_dist.values(), labels=sector_dist.keys(), autopct="%1.1f%%", pctdistance=0.8, colors=mcolors.TABLEAU_COLORS)
+        axs[0,1].set_title("Stocks by Industry")
 
-    axs[0,1].pie(sector_dist.values(), labels=sector_dist.keys(), autopct="%1.1f%%", pctdistance=0.8, colors=mcolors.TABLEAU_COLORS)
-    axs[0,1].set_title("Stocks by Industry")
+        axs[1,0].pie(country_dist.values(), labels=country_dist.keys(), autopct="%1.1f%%", pctdistance=0.8, colors=mcolors.TABLEAU_COLORS)
+        axs[1,0].set_title("Stocks by Country")
 
-    axs[1,0].pie(country_dist.values(), labels=country_dist.keys(), autopct="%1.1f%%", pctdistance=0.8, colors=mcolors.TABLEAU_COLORS)
-    axs[1,0].set_title("Stocks by Country")
+        axs[1,1].pie(market_cap_dist.values(), labels=market_cap_dist.keys(), autopct="%1.1f%%", pctdistance=0.8, colors=mcolors.TABLEAU_COLORS)
+        axs[1,1].set_title("Stocks by Market Cap.")
 
-    axs[1,1].pie(market_cap_dist.values(), labels=market_cap_dist.keys(), autopct="%1.1f%%", pctdistance=0.8, colors=mcolors.TABLEAU_COLORS)
-    axs[1,1].set_title("Stocks by Market Cap.")
-
-    # plt.show()
-    
-    st.pyplot(fig)
+        # plt.show()
+        
+        st.pyplot(fig)
 

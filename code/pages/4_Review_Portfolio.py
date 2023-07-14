@@ -6,6 +6,7 @@ import yfinance as yf
 from pathlib import Path
 from assets import stock_portfolio, portfolios, PortfolioAssets
 from PfAnalysisTwPy import *
+from GetStockData import *
 
 
 import riskfolio as rp
@@ -177,5 +178,14 @@ def chart_display():
 #---------------------------------------------------------------
 
 
-PfAnalysisTwPy()
+if len(st.session_state.work_watchlist_df) == 0 and len(st.session_state.work_portfolio_df) == "":
+    tickers = ""
+elif len(st.session_state.work_portfolio_df) > 0:
+    tickers = get_tickers_from_df(st.session_state.work_portfolio_df)
+else:
+    tickers = get_tickers_from_df(st.session_state.work_watchlist_df)
+
+PfAnalysisTwPy(tickers)
+
+
 # chart_display()

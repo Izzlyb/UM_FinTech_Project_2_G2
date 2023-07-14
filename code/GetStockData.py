@@ -29,6 +29,19 @@ def select_file_name(ix_seltd):
 #-----------------------------------------------------------
 
 
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+def get_tickers_from_df(df):
+    tkrs = []
+
+    for i in range(len(df)):
+        tkrs.append(df.loc[i]['Ticker'])
+
+    return tkrs
+#-----------------------------------------------------------
+
+
+
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # get stock to buy or sell and create a single stock df to add to the portfolio dataframe:
 def mk_stock_tx_item(tkr, prc, qty):

@@ -17,7 +17,7 @@ def AlgoPredictPriceLSTM(ticker):
 
     # get stock  quote
     start_date = "2010-01-01"
-    end_date = "2020-06-17"
+    end_date = "2020-06-14"
     ticker = "CAT"
     df = web.DataReader(ticker, start=start_date, end=end_date)
 
@@ -75,6 +75,8 @@ def AlgoPredictPriceLSTM(ticker):
     X_train = np.reshape(X_train, (X_train.shape[0], X_train.shape[1], 1))
     # X_train[0:2]
 
+    st.write(f"+ Creating a ML model to try to predict the price of [{ticker}] for the very short term....")
+
     # Build the LSTM neural network model:
     model = Sequential()
 
@@ -83,6 +85,7 @@ def AlgoPredictPriceLSTM(ticker):
     model.add(LSTM(50, return_sequences=False))
     model.add(Dense(20))
     model.add(Dense(1))
+
 
     # Now that we have the model, lets compile it:
     model.compile(optimizer='adam', loss='mean_squared_error')
@@ -161,7 +164,7 @@ def AlgoPredictPriceLSTM(ticker):
 
     # get stock  quote
     # start_date = "2010-01-01"
-    # end_date = "2020-06-17"
+    # end_date = "2020-06-12"
 
 
     # Try to predict closing price of ticker stock for :
@@ -191,8 +194,8 @@ def AlgoPredictPriceLSTM(ticker):
     # print(pred_price)
     st.write(f"the predicted price by the model is:{pred_price}")
 
-    start_date_test = "2020-06-20"
-    end_date_test = "2020-06-25"
+    start_date_test = "2020-06-11"
+    end_date_test = "2020-06-16"
 
     # Try to predict closing price of AAPL stock for :
     ticker_quote2 = web.DataReader(ticker, start_date_test, end_date_test)
@@ -200,7 +203,7 @@ def AlgoPredictPriceLSTM(ticker):
     st.write(ticker_quote2)
 
     # Try to predict closing price of AAPL stock for :
-    ticker_quote2 = web.DataReader(ticker, "2019-06-15", "2019-12-17")
+    ticker_quote2 = web.DataReader(ticker, "2020-06-12", "2020-06-13")
     # print(ticker_quote2)
     st.write(ticker_quote2)
     

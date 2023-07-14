@@ -18,12 +18,17 @@ plt.style.use('fivethirtyeight') #setting matplotlib style
 
 # 'ANET', 'DHI', 'CB', 'DXCM', 'EOG', 'ETSY', 'FDX', 'HLT', 'ILMN', 'ENPH', 'FDX', 'ABBV', 'UNH', 'MU', 'INTC',
 
-def PfAnalysisTwPy():
+def PfAnalysisTwPy(tickers):
     stocksymbols = ['LEN', 'CSCO', 'DOW', 'SB', 'PEP', 'CRM', 'TTWO']
     startdate = date(2019,10,14)
     end_date = date.today()
     # print(end_date)
     # print(f"You have {len(stocksymbols)} assets in your porfolio" )
+
+    if len(tickers) != 0:
+        stocksymbols = tickers
+
+    st.write(f"We will analyze the following stocks:{stocksymbols }")
 
     df = yf.download(stocksymbols,start=startdate, end=(end_date))['Adj Close']
 

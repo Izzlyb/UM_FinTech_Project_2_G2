@@ -156,18 +156,24 @@ def main():
         pf_name
         pf_selected = st.form_submit_button("Select Portfolio")
 
-    action_form = st.form(key="action_form")
-    with action_form:
-        if pf_selected == True:
-            mod_portfolio = get_portfolio_assets(pf_name)
+    # action_form = st.form(key="action_form")
+    # with action_form:
+    #     if pf_selected == True:
+    #         mod_portfolio = get_portfolio_assets(pf_name)
             
-            mod_portfolio
+    #         mod_portfolio
         
-        st.form_submit_button("Done with Portfolio")
+    #     st.form_submit_button("Done with Portfolio")
 
+    if len(st.session_state.work_watchlist_df) == 0 and len(st.session_state.work_portfolio_df) == "":
+        tickers = ""
+    elif len(st.session_state.work_portfolio_df) > 0:
+        tickers = get_tickers_from_df(st.session_state.work_portfolio_df)
+    else:
+        tickers = get_tickers_from_df(st.session_state.work_watchlist_df)
 
-    # PfAnalysisTwPy()
-    PortfolioDiversificationAnalysis()
+    if pf_selected == True:
+        PortfolioDiversificationAnalysis(tickers)
 
 #----------------------------------------------------------------
 
