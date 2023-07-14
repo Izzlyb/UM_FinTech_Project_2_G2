@@ -2,6 +2,23 @@
 
 import pandas as pd
 
+list_header = ('Symbol', 'Open', 'High', 'Low', 'Close', '52w-Low', '52w-High', 'Sector', 'Industry', 'Beta')
+
+
+DJI_CSV = "DowJones.csv"
+SP500_CSV = "SP500_sub.csv"
+NASDAQ_CSV = "Nasdaq100.csv"
+RUS2000_CSV = "Russell2000.csv"
+
+
+index_dict = {
+        'Dow Jones Industrial' : 'DJI', 
+        'S&P 500' : 'SP500',
+        'Nasdaq 100' :'NASDAQ',
+        'Russell 2000' :'RUS2000'
+}
+
+
 class PortfolioAsset():
     def __init__(self, trk, price, qty=0, date="", act_price=0.0):
         self.Ticker = trk,

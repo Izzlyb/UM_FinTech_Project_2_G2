@@ -41,7 +41,7 @@ def PortfolioDiversificationAnalysis():
     sector_dist = {}
     country_dist = {}
 
-    stocks = ['AAPL', 'PANW', 'ABBV', 'DE', 'MSFT', 'NVDA', 'TTWO', 'JPM', 'WMT', 'WM', 'XOM', 'AMZN' ]
+    stocks = ['AAPL', 'PANW', 'ABBV', 'KO', 'MSFT', 'NVDA', 'JPM', 'DIS', 'WM', 'CVX', 'AMZN' ]
     amounts = [20, 15, 80, 70, 32, 40, 60, 7, 14, 45, 100, 33]
     cash = 100_000
 
@@ -54,8 +54,8 @@ def PortfolioDiversificationAnalysis():
             countries.append(yf.Ticker(stocks[i]).get_info()['country'])
             market_caps.append(yf.Ticker(stocks[i]).get_info()['marketCap'])
             industry.append(yf.Ticker(stocks[i]).get_info()['industry'])
-            fiftyTwoWeekLow.append(yf.Ticker(stocks[i]).get_info()['fiftyTwoWeekLow'])
-            fiftyTwoWeekHigh.append(yf.Ticker(stocks[i]).get_info()['fiftyTwoWeekHigh'])
+            # fiftyTwoWeekLow.append(yf.Ticker(stocks[i]).get_info()['fiftyTwoWeekLow'])
+            # fiftyTwoWeekHigh.append(yf.Ticker(stocks[i]).get_info()['fiftyTwoWeekHigh'])
 
         for i in range(0, len(stocks)):
             values.append(yf.Ticker(stocks[i]).get_info()['previousClose'] * amounts[i])
@@ -73,7 +73,7 @@ def PortfolioDiversificationAnalysis():
         for i in range(0, len(etfs)):
             etf_values.append(yf.Ticker(etfs[i]).get_info()['previousClose'] * etf_amounts[i])
 
-        cryptos = ['BTC-USD', 'ETH-USD', 'ADA-USD', 'DOGE-USD']
+        cryptos = ['BTC-USD', 'ADA-USD', 'DOGE-USD']
         crypto_amounts = [.64, 1.33, 200, 500]
 
 
