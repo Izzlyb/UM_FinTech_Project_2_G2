@@ -32,26 +32,29 @@ st.write("""
 if "visibility" not in st.session_state:
     st.session_state.visibility = "visible"
     st.session_state.disabled = False
-if "watchlist_nm" not in st.session_state:
-    st.session_state.work_watchlist_nm = ""                  # string name of watchlist we are working:
-if "new_portfolio_nm" not in st.session_state:
-    st.session_state.work_portfolio_nm = ""              # string name of portfolio we are working:
-if "watchlist_df" not in st.session_state:
-    st.session_state.work_watchlist_df = pd.DataFrame()      # list of dataframes with watchlist
+if "work_watchlist_nm" not in st.session_state:
+    st.session_state.work_watchlist_nm = ""                 # string name of watchlist we are working:
+if "work_portfolio_nm" not in st.session_state:
+    st.session_state.work_portfolio_nm = ""                 # string name of portfolio we are working:
+if "work_watchlist_df" not in st.session_state:
+    st.session_state.work_watchlist_df = pd.DataFrame()     # list of dataframes with watchlist
 if "work_portfolio_df" not in st.session_state:
-    st.session_state.work_portfolio_df = pd.DataFrame() # list of dataframes with portfolios
+    st.session_state.work_portfolio_df = pd.DataFrame()     # list of dataframes with portfolios
 if "stks_to_newpf" not in st.session_state:
-    st.session_state.stks_to_newpf = []                 # list of new stocks to add to portfolio dataframe
+    st.session_state.stks_to_newpf = []                     # list of new stocks to add to portfolio dataframe
 if "idx_stock_df" not in st.session_state:
-    st.session_state.idx_stock_df = pd.DataFrame()      # temporary pass dataframe between form
+    st.session_state.idx_stock_df = pd.DataFrame()          # temporary pass dataframe between form
 if "stock_list_name" not in st.session_state:
-    st.session_state.stock_list_name = ""               # list of wl/pf stocks to retreive
+    st.session_state.stock_list_name = ""                   # list of wl/pf stocks to retreive
 if "stock_list_action" not in st.session_state:
-    st.session_state.stock_list_action = ""             # action to perform on watchlist or portfolio
+    st.session_state.stock_list_action = ""                 # action to perform on watchlist or portfolio
 if "ticker_qty" not in st.session_state:
-    st.session_state.ticker_qty = 0                     # quantity of stocks to buy or sell or add to watchlist or portfolio
+    st.session_state.ticker_qty = 0                         # ticker quantity to buy or sell to/from watchlist or portfolio
 if "ticker_name" not in st.session_state:
-    st.session_state.ticker_name = ""                   # ticker name to buy or sell or add to watchlist or portfolio
+    st.session_state.ticker_name = ""                       # ticker symbol to buy or sell to/from watchlist or portfolio
+if "ticker_price" not in st.session_state:
+    st.session_state.ticker_price = 0.0                     # ticker price to buy or sell or to/from watchlist or portfolio
+    
 
 # Load some example data.
 # DATA_URL = \

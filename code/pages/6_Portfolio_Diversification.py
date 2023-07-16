@@ -6,11 +6,8 @@ import yfinance as yf
 from pathlib import Path
 from assets import *
 from GetStockData import *
-from PfAnalysisTwPy import *
 from PortfolioDiversificationAnalysis import *
 
-
-import riskfolio as rp
 import matplotlib.pyplot as plt
 import warnings
 warnings.filterwarnings('ignore')
@@ -136,8 +133,6 @@ def calculate_weights(data):
 
 
 
-
-
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 def main():
     st.write("""
@@ -156,6 +151,9 @@ def main():
         pf_name
         pf_selected = st.form_submit_button("Select Portfolio")
 
+    if pf_selected == True:
+        st.session_state.work_portfolio_nm = pf_name
+        st.session_state.work_portfolio_df = get_portfolio_assets(pf_name)
     # action_form = st.form(key="action_form")
     # with action_form:
     #     if pf_selected == True:
@@ -172,6 +170,8 @@ def main():
     else:
         tickers = get_tickers_from_df(st.session_state.work_watchlist_df)
 
+    st.write(f"the stock list to analyze is: {tickers}")
+    
     if pf_selected == True:
         PortfolioDiversificationAnalysis(tickers)
 
